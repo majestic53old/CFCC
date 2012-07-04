@@ -22,7 +22,7 @@ Syntax
 
 The syntax used by CFCC is similar to Backus-Normal Form (BNF) in many ways. However, CFCC has added special types for representing floating-point values, integer values, and strings (both with and without whitespace). CFCC also supports both single-line and multi-line comment declarations.
 
-The BNF grammar used by CFCC is listed below (begins at <symbol>):
+The BNF grammar used by CFCC is listed below (begins at symbol):
 ```
 <comment> ::= '#'
 
@@ -33,6 +33,8 @@ The BNF grammar used by CFCC is listed below (begins at <symbol>):
 <declaration_list> ::= <declaration> <declaration_list> | <declaration> <or> <declaration_list> | <declaration>
 
 <directive> ::= COMMENT | COMMENT_OPEN | COMMENT_CLOSE
+
+<identifier> ::= [a-zA-Z_][a-zA-Z0-9_]*
 
 <or> ::= '|'
 
