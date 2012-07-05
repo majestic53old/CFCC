@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include "lexer.hpp"
+#include "shared.hpp"
 
 using namespace __cfcc;
 
@@ -60,18 +61,6 @@ _lexer &_lexer::operator=(const _lexer &other) {
 	_type = other._type;
 	_text = other._text;
 	return *this;
-}
-
-std::string _lexer::_format_exc(size_t type) {
-	return _format_exc("", type);
-}
-
-std::string _lexer::_format_exc(const std::string &mess, size_t type) {
-	std::stringstream ss;
-	ss << "ln. " << _buff.get_line() << ": " << exc_to_string(type);
-	if(!mess.empty())
-		ss << ": " << mess;
-	return ss.str();
 }
 
 size_t _lexer::_get_directive(void) {
@@ -133,17 +122,6 @@ void _lexer::_skip_ws(void) {
 	_skip_ws();
 }
 
-std::string _lexer::exc_to_string(size_t type) {
-	std::string output;
-	switch(type) {
-		case ERROR_UNTERMINATED_SYMBOL: output = "Unterminated symbol";
-			break;
-		default: output = "Unknown exception";
-			break;
-	}
-	return output;
-}
-
 size_t _lexer::get_line(void) {
 	return _buff.get_line();
 }
@@ -181,12 +159,12 @@ bool _lexer::next(void) {
 	} else if(_buff.get_curr() == _TERM) {
 		_type = TYPE_TERMINAL;
 		if(!_buff.has_next())
-			throw std::runtime_error(_format_exc(ERROR_UNTERMINATED_SYMBOL));
+			throw std::runtime_error(format_exc(lex_exc_to_string(ERROR_UNTERMINATED_SYMBOL), _buff.get_line()));
 		_buff.get_next();
 		_buff.toggle_line_count();
 		while(_buff.get_curr() != _TERM) {
 			if(!_buff.has_next())
-				throw std::runtime_error(_format_exc(ERROR_UNTERMINATED_SYMBOL));
+				throw std::runtime_error(format_exc(lex_exc_to_string(ERROR_UNTERMINATED_SYMBOL), _buff.get_line()));
 			_text += _buff.get_curr();
 			_buff.get_next();
 		}

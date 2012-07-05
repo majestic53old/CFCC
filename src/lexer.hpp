@@ -49,8 +49,6 @@ namespace __cfcc {
 			size_t _type;
 			std::string _text;
 
-			std::string _format_exc(size_t type);
-			std::string _format_exc(const std::string &mess, size_t type);
 			size_t _get_directive(void);
 			size_t _get_special(void);
 			size_t _get_symbol(void);
@@ -64,15 +62,10 @@ namespace __cfcc {
 			void _skip_ws(void);
 
 		public:
-
 			enum LEX_DIREC_TYPE {
 				TYPE_COMMENT,
 				TYPE_COMMENT_CLOSE,
 				TYPE_COMMENT_OPEN,
-			};
-
-			enum LEX_EXC {
-				ERROR_UNTERMINATED_SYMBOL,
 			};
 
 			enum LEX_TYPE {
@@ -107,7 +100,6 @@ namespace __cfcc {
 			_lexer(const _lexer &other);
 			virtual ~_lexer(void);
 			_lexer &operator=(const _lexer &other);
-			static std::string exc_to_string(size_t type);
 			size_t get_line(void);
 			std::string &get_text(void);
 			size_t get_type(void);
@@ -116,6 +108,8 @@ namespace __cfcc {
 			void reset(void);
 			std::string to_string(void);
 			static std::string type_to_string(size_t type);
+
+		friend class _parser;
 	} lexer;
 
 };
