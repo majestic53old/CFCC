@@ -49,6 +49,8 @@ The BNF grammar used by CFCC is listed below (begins at symbol):
 <terminal> ::= '\'' .* '\''
 ```
 
+###How About a Quick Example
+
 With this grammar it is easy to define various languages. For example, a simplified xml language can be defined like so:
 ```
 # XML 1.0 Spec (w/out xml declarations, namespaces. etc.)
