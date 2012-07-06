@@ -59,7 +59,7 @@ COMMENT_CLOSE = '-->'
 
 COMMENT_OPEN = '<!--'
 
-attribute = <identifier> '=' '"' (STRING) '"'
+attribute = <identifier> '="' (STRING) '"'
 
 attribute_list = <attribute> <attribute_list> | &
 
