@@ -24,6 +24,8 @@ The syntax used by CFCC is similar to Backus-Normal Form (BNF) in many ways. How
 
 The BNF grammar used by CFCC is listed below (begins at symbol):
 ```
+<assignment> ::= '='
+
 <comment> ::= '#'
 
 <empty> ::= '&'
@@ -42,14 +44,14 @@ The BNF grammar used by CFCC is listed below (begins at symbol):
 
 <special_type> ::= FLOAT | INTEGER | STRING | STRING_NWS
 
-<symbol> ::= <identifier> '=' <declaration_list> | <directive> '=' <terminal>
+<symbol> ::= <identifier> <assignment> <declaration_list> | <directive> <assignment> <terminal>
 
 <terminal> ::= '\'' .* '\''
 ```
 
 With this grammar it is easy to define various languages. For example, a simplified xml language can be defined like so:
 ```
-# XML 1.0 Spec (w/out xml declarations)
+# XML 1.0 Spec (w/out xml declarations, namespaces. etc.)
 
 COMMENT_CLOSE = '-->'
 
@@ -73,9 +75,11 @@ element = <node_list> | (STRING)
 Build
 ======
 
+There are two ways to use CLCC. You can choose to compile it as a static library or simply include the files in your own project.
+
 ###Windows:
 
-This project has not been tested in a Windows environment. However, the files should be able to be imported into a Visual Studios project without a problem.
+Import files into Visual Studios solution, or create a new static library solution to build as a .lib file.
 
 ###Linux/Unix:
 
@@ -103,7 +107,7 @@ make clean
 Using This Library
 ======
 
-To use CFCC, simply include the library in your project with the appropriate linker flag:
+To use CFCC as a static library, simply include the library in your project with the appropriate linker flag:
 ```
 -lcfcc
 ```
@@ -119,7 +123,44 @@ using namespace __cfcc;
 Examples
 ======
 
-Examples will be posted when the project is closer to being finished.
+###Verifying Language Definition
+
+To verify a language definition for correct syntax, instantiate a CFCC parser object and run the ```parse()``` member routine (see below).
+
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include "[path-to-headers]/parser.hpp"
+
+using namespace __cfcc;
+
+int main(void) {
+
+	parser par;
+	std::string path = "[path-to-language-definition]";
+
+	try {
+
+		// instantiate parser object
+		par = parser(path, true);
+
+		// attempt to parse file
+		par.parse();
+	} catch(std::runtime_error &exc) {
+
+		// an exception occurred
+		std::cerr << "Exception: " << exc.what() << std::endl;
+		std::cout << path << "is NOT valid." << std::endl;
+		return 1;
+	}
+
+	// file has valid CFCC syntax
+	std::cout << path << "is valid!" << std::endl;
+	return 0;
+}
+```
+
+More examples will be posted when the project is closer to being finished.
 
 License
 ======
