@@ -54,6 +54,8 @@ namespace __cfcc {
 				break;
 			case ERROR_EXPECTING_CLOSE_PARENTHESES: output = "Expecting close parentheses";
 				break;
+			case ERROR_EXPECTING_DECLARATION: output = "Expecting declaration";
+				break;
 			case ERROR_EXPECTING_IDENTIFIER: output = "Expecting identifer";
 				break;
 			case ERROR_EXPECTING_OPEN_PARENTHESES: output = "Expecting open parentheses";

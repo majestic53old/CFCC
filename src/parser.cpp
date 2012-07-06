@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
+
 #include <stdexcept>
 #include "parser.hpp"
 #include "shared.hpp"
@@ -74,14 +76,16 @@ void _parser::_declaration(void) {
 		_lex.next();
 	else if(_lex.get_type() == _lexer::TYPE_TERMINAL)
 		_lex.next();
+	else
+		throw std::runtime_error(format_exc(_lex.get_text(), parser_exc_to_string(ERROR_EXPECTING_DECLARATION), _lex.get_line()));
 }
 
 void _parser::_declaration_list(void) {
+	_declaration();
 	if(!_lex.has_next()
 			|| _lex.get_type() == _lexer::TYPE_DIRECTIVE
 			|| _lex.get_type() == _lexer::TYPE_IDENTIFIER)
 		return;
-	_declaration();
 	if(_lex.get_type() == _lexer::TYPE_OR)
 		_lex.next();
 	_declaration_list();
