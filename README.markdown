@@ -5,10 +5,10 @@ A context-free language parser generator written in C++.
 
 1. [Purpose](https://github.com/majestic53/CFCC#purpose)
 2. [Syntax](https://github.com/majestic53/CFCC#syntax)
-5. [Build](https://github.com/majestic53/CFCC#build-the-library)
+5. [Building the Library](https://github.com/majestic53/CFCC#building-the-library)
 	* [Windows](https://github.com/majestic53/CFCC#windows)
 	* [Linux/Unix](https://github.com/majestic53/CFCC#linux-unix)
-6. [Using This Library](https://github.com/majestic53/CFCC#using-the-library)
+6. [Using the Library](https://github.com/majestic53/CFCC#using-the-library)
 7. [Examples](https://github.com/majestic53/CFCC#examples)
 8. [License](https://github.com/majestic53/CFCC#license)
 
@@ -127,7 +127,7 @@ Examples
 
 ###Verifying a Language Definition
 
-To verify a language definition for correct syntax, instantiate a CFCC parser object and run the ```parse()``` member routine (see below).
+To verify a language definition, instantiate a CFCC parser object and run the ```parse()``` member routine (see below). At the moment, this process only checks for correct syntax, and not semantics.
 
 ```cpp
 #include <iostream>
