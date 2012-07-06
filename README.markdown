@@ -5,10 +5,10 @@ A context-free language parser generator written in C++.
 
 1. [Purpose](https://github.com/majestic53/CFCC#purpose)
 2. [Syntax](https://github.com/majestic53/CFCC#syntax)
-5. [Build](https://github.com/majestic53/CFCC#build)
+5. [Build](https://github.com/majestic53/CFCC#build-the-library)
 	* [Windows](https://github.com/majestic53/CFCC#windows)
 	* [Linux/Unix](https://github.com/majestic53/CFCC#linux-unix)
-6. [Using This Library](https://github.com/majestic53/CFCC#using-this-library)
+6. [Using This Library](https://github.com/majestic53/CFCC#using-the-library)
 7. [Examples](https://github.com/majestic53/CFCC#examples)
 8. [License](https://github.com/majestic53/CFCC#license)
 
@@ -74,14 +74,14 @@ node_list = <node> <node_list> | &
 element = <node_list> | (STRING)
 ```
 
-Build
+Building the Library
 ======
 
 There are two ways to use CLCC. You can choose to compile it as a static library or simply include the files in your own project.
 
 ###Windows:
 
-Import files into Visual Studios solution, or create a new static library solution to build as a .lib file.
+Import files into a Visual Studios solution, or create a new static library solution to build the project as a .lib file.
 
 ###Linux/Unix:
 
@@ -106,7 +106,7 @@ Clean:
 make clean
 ```
 
-Using This Library
+Using the Library
 ======
 
 To use CFCC as a static library, simply include the library in your project with the appropriate linker flag:
@@ -125,7 +125,7 @@ using namespace __cfcc;
 Examples
 ======
 
-###Verifying Language Definition
+###Verifying a Language Definition
 
 To verify a language definition for correct syntax, instantiate a CFCC parser object and run the ```parse()``` member routine (see below).
 
@@ -152,17 +152,17 @@ int main(void) {
 
 		// an exception occurred
 		std::cerr << "Exception: " << exc.what() << std::endl;
-		std::cout << path << "is NOT valid." << std::endl;
+		std::cout << path << " is NOT valid." << std::endl;
 		return 1;
 	}
 
 	// file has valid CFCC syntax
-	std::cout << path << "is valid!" << std::endl;
+	std::cout << path << " is valid!" << std::endl;
 	return 0;
 }
 ```
 
-More examples will be posted when the project is closer to being finished.
+More examples will be posted as the project progresses.
 
 License
 ======
