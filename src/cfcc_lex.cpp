@@ -1,5 +1,5 @@
 /*
- * lexer.cpp
+ * cfcc_lex.cpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
