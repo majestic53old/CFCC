@@ -1,5 +1,5 @@
 /*
- * parser.cpp
+ * cfcc_par.cpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,105 +17,103 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-
 #include <stdexcept>
-#include "parser.hpp"
-#include "shared.hpp"
+#include "cfcc_common.hpp"
+#include "cfcc_par.hpp"
 
 using namespace __cfcc;
 
-_parser::_parser(void) {
+_cfcc_par::_cfcc_par(void) {
 	return;
 }
 
-_parser::_parser(const std::string &input, bool is_file) :
+_cfcc_par::_cfcc_par(const std::string &input, bool is_file) :
 		_lex(input, is_file) {
 	return;
 }
 
-_parser::_parser(const _parser &other) :
+_cfcc_par::_cfcc_par(const _cfcc_par &other) :
 		_lex(other._lex){
 	return;
 }
 
-_parser::~_parser(void) {
+_cfcc_par::~_cfcc_par(void) {
 	return;
 }
 
-_parser &_parser::operator=(const _parser &other) {
+_cfcc_par &_cfcc_par::operator=(const _cfcc_par &other) {
 	if(this == &other)
 		return *this;
 	_lex = other._lex;
 	return *this;
 }
 
-void _parser::_declaration(void) {
+void _cfcc_par::_declaration(void) {
 	size_t sym;
-	if(_lex.get_type() == _lexer::TYPE_SYMBOL) {
+	if(_lex.get_type() == _cfcc_lex::TYPE_SYMBOL) {
 		sym = _lex._get_symbol();
 		switch(sym) {
-			case _lexer::TYPE_OPEN_IDENTIFIER:
+			case _cfcc_lex::TYPE_OPEN_IDENTIFIER:
 				_lex.next();
-				if(_lex.get_type() != _lexer::TYPE_IDENTIFIER)
+				if(_lex.get_type() != _cfcc_lex::TYPE_IDENTIFIER)
 					throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_IDENTIFIER), _lex.get_line()));
 				_lex.next();
 				sym = _lex._get_symbol();
-				if(sym != _lexer::TYPE_CLOSE_IDENTIFIER)
+				if(sym != _cfcc_lex::TYPE_CLOSE_IDENTIFIER)
 					throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_CLOSE_BRACKET), _lex.get_line()));
 				_lex.next();
 				break;
-			case _lexer::TYPE_OPEN_SPECIAL:
+			case _cfcc_lex::TYPE_OPEN_SPECIAL:
 				_special();
 				break;
 			default:
 				throw std::runtime_error(format_exc(_lex.get_text(), parser_exc_to_string(ERROR_UNKNOWN_SYMBOL), _lex.get_line()));
 				break;
 		}
-	} else if(_lex.get_type() == _lexer::TYPE_EMPTY)
+	} else if(_lex.get_type() == _cfcc_lex::TYPE_EMPTY)
 		_lex.next();
-	else if(_lex.get_type() == _lexer::TYPE_TERMINAL)
+	else if(_lex.get_type() == _cfcc_lex::TYPE_TERMINAL)
 		_lex.next();
 	else
 		throw std::runtime_error(format_exc(_lex.get_text(), parser_exc_to_string(ERROR_EXPECTING_DECLARATION), _lex.get_line()));
 }
 
-void _parser::_declaration_list(void) {
+void _cfcc_par::_declaration_list(void) {
 	_declaration();
 	if(!_lex.has_next()
-			|| _lex.get_type() == _lexer::TYPE_DIRECTIVE
-			|| _lex.get_type() == _lexer::TYPE_IDENTIFIER)
+			|| _lex.get_type() == _cfcc_lex::TYPE_DIRECTIVE
+			|| _lex.get_type() == _cfcc_lex::TYPE_IDENTIFIER)
 		return;
-	if(_lex.get_type() == _lexer::TYPE_OR)
+	if(_lex.get_type() == _cfcc_lex::TYPE_OR)
 		_lex.next();
 	_declaration_list();
 }
 
-void _parser::_special(void) {
-	if(_lex.get_type() != _lexer::TYPE_SYMBOL
-			|| _lex._get_symbol() != _lexer::TYPE_OPEN_SPECIAL)
+void _cfcc_par::_special(void) {
+	if(_lex.get_type() != _cfcc_lex::TYPE_SYMBOL
+			|| _lex._get_symbol() != _cfcc_lex::TYPE_OPEN_SPECIAL)
 		throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_OPEN_PARENTHESES), _lex.get_line()));
 	_lex.next();
-	if(_lex.get_type() != _lexer::TYPE_SPECIAL)
+	if(_lex.get_type() != _cfcc_lex::TYPE_SPECIAL)
 		throw std::runtime_error(format_exc(_lex.get_text(), parser_exc_to_string(ERROR_EXPECTING_SPECIAL), _lex.get_line()));
 	_lex.next();
-	if(_lex.get_type() != _lexer::TYPE_SYMBOL
-			|| _lex._get_symbol() != _lexer::TYPE_CLOSE_SPECIAL)
+	if(_lex.get_type() != _cfcc_lex::TYPE_SYMBOL
+			|| _lex._get_symbol() != _cfcc_lex::TYPE_CLOSE_SPECIAL)
 		throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_CLOSE_PARENTHESES), _lex.get_line()));
 	_lex.next();
 }
 
-void _parser::_symbol(void) {
+void _cfcc_par::_symbol(void) {
 	size_t type = _lex.get_type();
 	switch(type) {
-		case _lexer::TYPE_DIRECTIVE:
-		case _lexer::TYPE_IDENTIFIER:
+		case _cfcc_lex::TYPE_DIRECTIVE:
+		case _cfcc_lex::TYPE_IDENTIFIER:
 			_lex.next();
-			if(_lex.get_type() != _lexer::TYPE_ASSIGNMENT)
+			if(_lex.get_type() != _cfcc_lex::TYPE_ASSIGNMENT)
 				throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_ASSIGNMENT), _lex.get_line()));
 			_lex.next();
-			if(type == _lexer::TYPE_DIRECTIVE) {
-				if(_lex.get_type() != _lexer::TYPE_TERMINAL)
+			if(type == _cfcc_lex::TYPE_DIRECTIVE) {
+				if(_lex.get_type() != _cfcc_lex::TYPE_TERMINAL)
 					throw std::runtime_error(format_exc(parser_exc_to_string(ERROR_EXPECTING_TERMINAL), _lex.get_line()));
 				_lex.next();
 			} else
@@ -127,13 +125,13 @@ void _parser::_symbol(void) {
 	}
 }
 
-void _parser::parse(void) {
+void _cfcc_par::parse(void) {
 	_lex.reset();
 	_lex.next();
 	while(_lex.has_next())
 		_symbol();
 }
 
-void _parser::reset(void) {
+void _cfcc_par::reset(void) {
 	_lex.reset();
 }

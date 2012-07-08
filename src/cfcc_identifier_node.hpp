@@ -1,5 +1,5 @@
 /*
- * buffer.hpp
+ * cfcc_identifier_node.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,45 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BUFFER_HPP_
-#define BUFFER_HPP_
+#ifndef CFCC_IDENTIFIER_NODE_HPP_
+#define CFCC_IDENTIFIER_NODE_HPP_
 
 #include <string>
+#include "cfcc_node.hpp"
 
 namespace __cfcc {
 
-	typedef class _buffer {
+	typedef class _cfcc_identifier_node :
+			public _cfcc_node {
 		protected:
-			static const char _NL = '\n';
-			static const char _EOS = '\0';
-
-			bool _count;
-			long _tln;
-			size_t _pos, _ln;
-			std::string _buff;
+			std::string _name;
 
 		public:
-			_buffer(void);
-			_buffer(const std::string &input, bool is_file);
-			_buffer(const _buffer &other);
-			virtual ~_buffer(void);
-			_buffer &operator=(const _buffer &other);
-			void clear(void);
-			std::string get_buff(void);
-			char get_curr(void);
-			size_t get_line(void);
-			char get_next(void);
-			size_t get_pos(void);
-			char get_prev(void);
-			bool has_prev(void);
-			bool has_next(void);
-			bool jump(size_t pos);
-			void reset(void);
-			size_t size(void);
-			void toggle_line_count(void);
-
-		friend class _lexer;
-	} buffer;
+			_cfcc_identifier_node(void);
+			_cfcc_identifier_node(const std::string &name);
+			_cfcc_identifier_node(const _cfcc_identifier_node &other);
+			_cfcc_identifier_node &operator=(const _cfcc_identifier_node &other);
+			virtual ~_cfcc_identifier_node(void);
+			std::string get_name(void);
+			void set_name(const std::string &name);
+			std::string to_string(void);
+	} cfcc_identifier_node;
 
 };
 

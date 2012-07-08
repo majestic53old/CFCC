@@ -1,5 +1,5 @@
 /*
- * lexer.hpp
+ * cfcc_lex.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEXER_HPP_
-#define LEXER_HPP_
+#ifndef CFCC_LEX_HPP_
+#define CFCC_LEX_HPP_
 
 #include <set>
 #include <string>
-#include "buffer.hpp"
+#include "cfcc_buff.hpp"
 
 namespace __cfcc {
 
-	typedef class _lexer {
+	typedef class _cfcc_lex {
 		protected:
 			static const char _COMM = '#';
 			static const char _TERM = '\'';
@@ -45,7 +45,7 @@ namespace __cfcc {
 			static const std::string _SYMBOL[_SYMBOL_COUNT];
 			static const std::set<std::string> _SYMBOL_SET;
 
-			buffer _buff;
+			cfcc_buff _buff;
 			size_t _type;
 			std::string _text;
 
@@ -95,11 +95,11 @@ namespace __cfcc {
 				TYPE_OPEN_SPECIAL,
 			};
 
-			_lexer(void);
-			_lexer(const std::string &input, bool is_file);
-			_lexer(const _lexer &other);
-			virtual ~_lexer(void);
-			_lexer &operator=(const _lexer &other);
+			_cfcc_lex(void);
+			_cfcc_lex(const std::string &input, bool is_file);
+			_cfcc_lex(const _cfcc_lex &other);
+			virtual ~_cfcc_lex(void);
+			_cfcc_lex &operator=(const _cfcc_lex &other);
 			size_t get_line(void);
 			std::string &get_text(void);
 			size_t get_type(void);
@@ -109,8 +109,8 @@ namespace __cfcc {
 			std::string to_string(void);
 			static std::string type_to_string(size_t type);
 
-		friend class _parser;
-	} lexer;
+		friend class _cfcc_par;
+	} cfcc_lex;
 
 };
 

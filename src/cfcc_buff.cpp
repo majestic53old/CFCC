@@ -1,5 +1,5 @@
 /*
- * buffer.cpp
+ * cfcc_buff.cpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -20,16 +20,16 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include "buffer.hpp"
+#include "cfcc_buff.hpp"
 
 using namespace __cfcc;
 
-_buffer::_buffer(void) :
+_cfcc_buff::_cfcc_buff(void) :
 		_count(true), _tln(0), _pos(0), _ln(1) {
 	return;
 }
 
-_buffer::_buffer(const std::string &input, bool is_file) :
+_cfcc_buff::_cfcc_buff(const std::string &input, bool is_file) :
 		_count(true), _tln(0), _pos(0), _ln(1) {
 	if(is_file) {
 		std::stringstream ss;
@@ -43,16 +43,16 @@ _buffer::_buffer(const std::string &input, bool is_file) :
 		_buff = input;
 }
 
-_buffer::_buffer(const _buffer &other) :
+_cfcc_buff::_cfcc_buff(const _cfcc_buff &other) :
 		_count(other._count), _tln(other._tln), _pos(other._pos), _ln(other._ln), _buff(other._buff) {
 	return;
 }
 
-_buffer::~_buffer(void) {
+_cfcc_buff::~_cfcc_buff(void) {
 	return;
 }
 
-_buffer &_buffer::operator=(const _buffer &other) {
+_cfcc_buff &_cfcc_buff::operator=(const _cfcc_buff &other) {
 	if(this == &other)
 		return *this;
 	_count = other._count;
@@ -63,26 +63,26 @@ _buffer &_buffer::operator=(const _buffer &other) {
 	return *this;
 }
 
-void _buffer::clear(void) {
+void _cfcc_buff::clear(void) {
 	_buff.clear();
 	reset();
 }
 
-std::string _buffer::get_buff(void) {
+std::string _cfcc_buff::get_buff(void) {
 	return _buff;
 }
 
-char _buffer::get_curr(void) {
+char _cfcc_buff::get_curr(void) {
 	if(_pos >= _buff.size())
 		return _EOS;
 	return _buff.at(_pos);
 }
 
-size_t _buffer::get_line(void) {
+size_t _cfcc_buff::get_line(void) {
 	return _ln;
 }
 
-char _buffer::get_next(void) {
+char _cfcc_buff::get_next(void) {
 	if(++_pos < _buff.size()
 			&& get_curr() == _NL) {
 		if(_count)
@@ -93,11 +93,11 @@ char _buffer::get_next(void) {
 	return get_curr();
 }
 
-size_t _buffer::get_pos(void) {
+size_t _cfcc_buff::get_pos(void) {
 	return _pos;
 }
 
-char _buffer::get_prev(void) {
+char _cfcc_buff::get_prev(void) {
 	if(--_pos > 0
 			&& get_curr() == _NL) {
 		if(_count)
@@ -108,15 +108,15 @@ char _buffer::get_prev(void) {
 	return get_curr();
 }
 
-bool _buffer::has_prev(void) {
+bool _cfcc_buff::has_prev(void) {
 	return _pos > 0;
 }
 
-bool _buffer::has_next(void) {
+bool _cfcc_buff::has_next(void) {
 	return _pos < _buff.size();
 }
 
-bool _buffer::jump(size_t pos) {
+bool _cfcc_buff::jump(size_t pos) {
 	size_t index = _pos;
 	if(pos < _buff.size()) {
 		for(; index < pos; ++index)
@@ -126,18 +126,23 @@ bool _buffer::jump(size_t pos) {
 	return false;
 }
 
-void _buffer::reset(void) {
+void _cfcc_buff::reset(void) {
 	_count = true;
 	_tln = 0;
 	_pos = 0;
 	_ln = 1;
 }
 
-size_t _buffer::size(void) {
+void _cfcc_buff::set_buff(const std::string &input) {
+	_buff = input;
+	reset();
+}
+
+size_t _cfcc_buff::size(void) {
 	return _buff.size();
 }
 
-void _buffer::toggle_line_count(void) {
+void _cfcc_buff::toggle_line_count(void) {
 	if(!_count)
 		_ln += _tln;
 	_tln = 0;

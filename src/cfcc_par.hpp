@@ -1,5 +1,5 @@
 /*
- * shared.hpp
+ * cfcc_par.cpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,34 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHARED_HPP_
-#define SHARED_HPP_
+#ifndef CFCC_PAR_HPP_
+#define CFCC_PAR_HPP_
 
 #include <string>
+#include "cfcc_lex.hpp"
 
 namespace __cfcc {
 
-	enum LEX_EXC {
-		ERROR_UNTERMINATED_SYMBOL,
-	};
+	typedef class _cfcc_par {
+		protected:
+			cfcc_lex _lex;
 
-	enum PARSER_EXC {
-		ERROR_EXPECTING_ASSIGNMENT,
-		ERROR_EXPECTING_CLOSE_BRACKET,
-		ERROR_EXPECTING_CLOSE_PARENTHESES,
-		ERROR_EXPECTING_DECLARATION,
-		ERROR_EXPECTING_IDENTIFIER,
-		ERROR_EXPECTING_OPEN_PARENTHESES,
-		ERROR_EXPECTING_SPECIAL,
-		ERROR_EXPECTING_SYMBOL,
-		ERROR_EXPECTING_TERMINAL,
-		ERROR_UNKNOWN_SYMBOL,
-	};
+			void _declaration(void);
+			void _declaration_list(void);
+			void _special(void);
+			void _symbol(void);
 
-	std::string format_exc(const std::string &exc_mess, size_t line);
-	std::string format_exc(const std::string &mess, const std::string &exc_mess, size_t line);
-	std::string lex_exc_to_string(size_t type);
-	std::string parser_exc_to_string(size_t type);
+		public:
+			_cfcc_par(void);
+			_cfcc_par(const std::string &input, bool is_file);
+			_cfcc_par(const _cfcc_par &other);
+			virtual ~_cfcc_par(void);
+			_cfcc_par &operator=(const _cfcc_par &other);
+			void parse(void);
+			void reset(void);
+	} cfcc_par;
+
 };
 
 #endif

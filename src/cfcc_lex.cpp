@@ -19,42 +19,42 @@
 
 #include <sstream>
 #include <stdexcept>
-#include "lexer.hpp"
-#include "shared.hpp"
+#include "cfcc_lex.hpp"
+#include "cfcc_common.hpp"
 
 using namespace __cfcc;
 
-const std::string _lexer::_ASSIGN("=");
-const std::string _lexer::_EMP("&");
-const std::string _lexer::_OR("|");
+const std::string _cfcc_lex::_ASSIGN("=");
+const std::string _cfcc_lex::_EMP("&");
+const std::string _cfcc_lex::_OR("|");
 
-const std::string _lexer::_DIRECTIVE[_DIRECTIVE_COUNT] = { "COMMENT", "COMMENT_CLOSE", "COMMENT_OPEN" };
-const std::set<std::string> _lexer::_DIRECTIVE_SET(_DIRECTIVE, _DIRECTIVE + _DIRECTIVE_COUNT);
-const std::string _lexer::_SPECIAL[_SPECIAL_COUNT] = { "FLOAT", "INTEGER", "STRING", "STRING_NWS", };
-const std::set<std::string> _lexer::_SPECIAL_SET(_SPECIAL, _SPECIAL + _SPECIAL_COUNT);
-const std::string _lexer::_SYMBOL[_SYMBOL_COUNT] = { ">", ")", "<", "(", };
-const std::set<std::string> _lexer::_SYMBOL_SET(_SYMBOL, _SYMBOL + _SYMBOL_COUNT);
+const std::string _cfcc_lex::_DIRECTIVE[_DIRECTIVE_COUNT] = { "COMMENT", "COMMENT_CLOSE", "COMMENT_OPEN" };
+const std::set<std::string> _cfcc_lex::_DIRECTIVE_SET(_DIRECTIVE, _DIRECTIVE + _DIRECTIVE_COUNT);
+const std::string _cfcc_lex::_SPECIAL[_SPECIAL_COUNT] = { "FLOAT", "INTEGER", "STRING", "STRING_NWS", };
+const std::set<std::string> _cfcc_lex::_SPECIAL_SET(_SPECIAL, _SPECIAL + _SPECIAL_COUNT);
+const std::string _cfcc_lex::_SYMBOL[_SYMBOL_COUNT] = { ">", ")", "<", "(", };
+const std::set<std::string> _cfcc_lex::_SYMBOL_SET(_SYMBOL, _SYMBOL + _SYMBOL_COUNT);
 
-_lexer::_lexer(void) :
+_cfcc_lex::_cfcc_lex(void) :
 		_type(TYPE_BEGIN) {
 	return;
 }
 
-_lexer::_lexer(const std::string &input, bool is_file) :
+_cfcc_lex::_cfcc_lex(const std::string &input, bool is_file) :
 		_buff(input, is_file), _type(TYPE_BEGIN) {
 	return;
 }
 
-_lexer::_lexer(const _lexer &other) :
+_cfcc_lex::_cfcc_lex(const _cfcc_lex &other) :
 		_buff(other._buff), _type(other._type), _text(other._text) {
 	return;
 }
 
-_lexer::~_lexer(void) {
+_cfcc_lex::~_cfcc_lex(void) {
 	return;
 }
 
-_lexer &_lexer::operator=(const _lexer &other) {
+_cfcc_lex &_cfcc_lex::operator=(const _cfcc_lex &other) {
 	if(this == &other)
 		return *this;
 	_buff = other._buff;
@@ -63,19 +63,19 @@ _lexer &_lexer::operator=(const _lexer &other) {
 	return *this;
 }
 
-size_t _lexer::_get_directive(void) {
+size_t _cfcc_lex::_get_directive(void) {
 	return _get_type(_text, _DIRECTIVE, _DIRECTIVE_COUNT);
 }
 
-size_t _lexer::_get_special(void) {
+size_t _cfcc_lex::_get_special(void) {
 	return _get_type(_text, _SPECIAL, _SPECIAL_COUNT);
 }
 
-size_t _lexer::_get_symbol(void) {
+size_t _cfcc_lex::_get_symbol(void) {
 	return _get_type(_text, _SYMBOL, _SYMBOL_COUNT);
 }
 
-size_t _lexer::_get_type(const std::string &text, const std::string *types, size_t type_count) {
+size_t _cfcc_lex::_get_type(const std::string &text, const std::string *types, size_t type_count) {
 	size_t pos = 0;
 	for(; pos < type_count; ++pos)
 		if(types[pos] == text)
@@ -83,31 +83,31 @@ size_t _lexer::_get_type(const std::string &text, const std::string *types, size
 	return (size_t) -1;
 }
 
-bool _lexer::_is_assignment(void) {
+bool _cfcc_lex::_is_assignment(void) {
 	return _text == _ASSIGN;
 }
 
-bool _lexer::_is_directive(void) {
+bool _cfcc_lex::_is_directive(void) {
 	return _DIRECTIVE_SET.find(_text) != _DIRECTIVE_SET.end();
 }
 
-bool _lexer::_is_empty(void) {
+bool _cfcc_lex::_is_empty(void) {
 	return _text == _EMP;
 }
 
-bool _lexer::_is_or(void) {
+bool _cfcc_lex::_is_or(void) {
 	return _text == _OR;
 }
 
-bool _lexer::_is_special(void) {
+bool _cfcc_lex::_is_special(void) {
 	return _SPECIAL_SET.find(_text) != _SPECIAL_SET.end();
 }
 
-bool _lexer::_is_symbol(void) {
+bool _cfcc_lex::_is_symbol(void) {
 	return _SYMBOL_SET.find(_text) != _SYMBOL_SET.end();
 }
 
-void _lexer::_skip_ws(void) {
+void _cfcc_lex::_skip_ws(void) {
 	if(!_buff.has_next()
 			|| (_buff.get_curr() != _COMM
 					&& !isspace(_buff.get_curr())))
@@ -117,28 +117,28 @@ void _lexer::_skip_ws(void) {
 		_buff.get_next();
 	if(_buff.get_curr() == _COMM)
 		while(_buff.has_next()
-				&&_buff.get_curr() != _buffer::_NL)
+				&&_buff.get_curr() != _cfcc_buff::_NL)
 			_buff.get_next();
 	_skip_ws();
 }
 
-size_t _lexer::get_line(void) {
+size_t _cfcc_lex::get_line(void) {
 	return _buff.get_line();
 }
 
-std::string &_lexer::get_text(void) {
+std::string & _cfcc_lex::get_text(void) {
 	return _text;
 }
 
-size_t _lexer::get_type(void) {
+size_t _cfcc_lex::get_type(void) {
 	return _type;
 }
 
-bool _lexer::has_next(void) {
+bool _cfcc_lex::has_next(void) {
 	return _type != TYPE_END;
 }
 
-bool _lexer::next(void) {
+bool _cfcc_lex::next(void) {
 	_skip_ws();
 	_text.clear();
 	_type = TYPE_END;
@@ -185,13 +185,13 @@ bool _lexer::next(void) {
 	return true;
 }
 
-void _lexer::reset(void) {
+void _cfcc_lex::reset(void) {
 	_buff.reset();
 	_text.clear();
 	_type = TYPE_BEGIN;
 }
 
-std::string _lexer::to_string(void) {
+std::string _cfcc_lex::to_string(void) {
 	std::stringstream ss;
 	ss << "[" << type_to_string(_type) << "]";
 	if(!_text.empty())
@@ -199,7 +199,7 @@ std::string _lexer::to_string(void) {
 	return ss.str();
 }
 
-std::string _lexer::type_to_string(size_t type) {
+std::string _cfcc_lex::type_to_string(size_t type) {
 	std::string output;
 	switch(type) {
 		case TYPE_ASSIGNMENT: output = "ASSIGNMENT";

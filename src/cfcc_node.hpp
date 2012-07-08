@@ -1,5 +1,5 @@
 /*
- * parser.hpp
+ * cfcc_node.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,32 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PARSER_HPP_
-#define PARSER_HPP_
+#ifndef CFCC_NODE_HPP_
+#define CFCC_NODE_HPP_
 
 #include <string>
-#include "lexer.hpp"
+#include "cfcc_common.hpp"
 
 namespace __cfcc {
 
-	typedef class _parser {
+	typedef class _cfcc_node {
 		protected:
-			lexer _lex;
-
-			void _declaration(void);
-			void _declaration_list(void);
-			void _special(void);
-			void _symbol(void);
+			size_t _type;
 
 		public:
-			_parser(void);
-			_parser(const std::string &input, bool is_file);
-			_parser(const _parser &other);
-			virtual ~_parser(void);
-			_parser &operator=(const _parser &other);
-			void parse(void);
-			void reset(void);
-	} parser;
+			_cfcc_node(void);
+			_cfcc_node(size_t type);
+			_cfcc_node(const _cfcc_node &other);
+			virtual ~_cfcc_node(void);
+			_cfcc_node &operator=(const _cfcc_node &other);
+			size_t get_type(void);
+			void set_type(size_t type);
+			virtual std::string to_string(void);
+			static std::string type_to_string(size_t type);
+	} cfcc_node;
 
 };
 

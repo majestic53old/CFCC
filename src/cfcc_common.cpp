@@ -1,5 +1,5 @@
 /*
- * shared.cpp
+ * cfcc_common.cpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -18,7 +18,7 @@
  */
 
 #include <sstream>
-#include "shared.hpp"
+#include "cfcc_common.hpp"
 
 namespace __cfcc {
 

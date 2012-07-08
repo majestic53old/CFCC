@@ -9,22 +9,38 @@ FLAG=-std=c++0x -O3 -funroll-all-loops
 all: cfcc build
 
 build: 
-	ar rcs $(OUT) $(SRC)buffer.o $(SRC)lexer.o $(SRC)parser.o $(SRC)shared.o
+	ar rcs $(OUT) $(SRC)cfcc_buff.o $(SRC)cfcc_common.o $(SRC)cfcc_empty_node.o $(SRC)cfcc_identifier_node.o $(SRC)cfcc_lex.o $(SRC)cfcc_node.o $(SRC)cfcc_par.o $(SRC)cfcc_special_node.o $(SRC)cfcc_terminal_node.o
 
 clean:
 	rm -f $(OUT)
 	rm -f $(SRC)*.o
 
-cfcc: buffer.o lexer.o parser.o shared.o
+cfcc: cfcc_buff.o cfcc_common.o cfcc_empty_node.o cfcc_identifier_node.o cfcc_lex.o cfcc_node.o cfcc_par.o cfcc_special_node.o cfcc_terminal_node.o
 
-buffer.o: $(SRC)buffer.cpp $(SRC)buffer.hpp
-	$(CC) $(FLAG) -c $(SRC)buffer.cpp -o $(SRC)buffer.o
 
-lexer.o: $(SRC)lexer.cpp $(SRC)lexer.hpp
-	$(CC) $(FLAG) -c $(SRC)lexer.cpp -o $(SRC)lexer.o
+cfcc_buff.o: $(SRC)cfcc_buff.cpp $(SRC)cfcc_buff.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_buff.cpp -o $(SRC)cfcc_buff.o
 
-parser.o: $(SRC)parser.cpp $(SRC)parser.hpp
-	$(CC) $(FLAG) -c $(SRC)parser.cpp -o $(SRC)parser.o
+cfcc_common.o: $(SRC)cfcc_common.cpp $(SRC)cfcc_common.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_common.cpp -o $(SRC)cfcc_common.o
 
-shared.o: $(SRC)shared.cpp $(SRC)shared.hpp
-	$(CC) $(FLAG) -c $(SRC)shared.cpp -o $(SRC)shared.o
+cfcc_empty_node.o: $(SRC)cfcc_empty_node.cpp $(SRC)cfcc_empty_node.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_empty_node.cpp -o $(SRC)cfcc_empty_node.o
+
+cfcc_identifier_node.o: $(SRC)cfcc_identifier_node.cpp $(SRC)cfcc_identifier_node.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_identifier_node.cpp -o $(SRC)cfcc_identifier_node.o
+
+cfcc_lex.o: $(SRC)cfcc_lex.cpp $(SRC)cfcc_lex.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_lex.cpp -o $(SRC)cfcc_lex.o
+
+cfcc_node.o: $(SRC)cfcc_node.cpp $(SRC)cfcc_node.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_node.cpp -o $(SRC)cfcc_node.o
+
+cfcc_par.o: $(SRC)cfcc_par.cpp $(SRC)cfcc_par.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_par.cpp -o $(SRC)cfcc_par.o
+
+cfcc_special_node.o: $(SRC)cfcc_special_node.cpp $(SRC)cfcc_special_node.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_special_node.cpp -o $(SRC)cfcc_special_node.o
+
+cfcc_terminal_node.o: $(SRC)cfcc_terminal_node.cpp $(SRC)cfcc_terminal_node.hpp
+	$(CC) $(FLAG) -c $(SRC)cfcc_terminal_node.cpp -o $(SRC)cfcc_terminal_node.o
