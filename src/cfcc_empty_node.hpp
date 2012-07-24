@@ -20,7 +20,6 @@
 #ifndef CFCC_EMPTY_NODE_HPP_
 #define CFCC_EMPTY_NODE_HPP_
 
-#include <string>
 #include "cfcc_node.hpp"
 
 namespace __cfcc {
@@ -29,7 +28,9 @@ namespace __cfcc {
 			public _cfcc_node {
 		public:
 			_cfcc_empty_node(void);
+			_cfcc_empty_node(const _cfcc_empty_node &other);
 			virtual ~_cfcc_empty_node(void);
+			_cfcc_empty_node &operator=(const _cfcc_empty_node &other);
 			std::string to_string(void);
 	} cfcc_empty_node;
 

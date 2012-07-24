@@ -27,12 +27,23 @@ _cfcc_empty_node::_cfcc_empty_node(void) :
 	return;
 }
 
+_cfcc_empty_node::_cfcc_empty_node(const _cfcc_empty_node &other) {
+	_cfcc_node::operator=(other);
+}
+
 _cfcc_empty_node::~_cfcc_empty_node(void) {
 	return;
 }
 
+_cfcc_empty_node &_cfcc_empty_node::operator=(const _cfcc_empty_node &other) {
+	if(this == &other)
+		return *this;
+	_cfcc_node::operator=(other);
+	return *this;
+}
+
 std::string _cfcc_empty_node::to_string(void) {
 	std::stringstream ss;
-	ss << "[" << cfcc_node::type_to_string(NODE_EMPTY) << "]";
+	ss << "[" << _cfcc_node::to_string() << "]";
 	return ss.str();
 }

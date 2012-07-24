@@ -20,7 +20,6 @@
 #ifndef CFCC_TERMINAL_NODE_HPP_
 #define CFCC_TERMINAL_NODE_HPP_
 
-#include <string>
 #include "cfcc_node.hpp"
 
 namespace __cfcc {
@@ -34,8 +33,8 @@ namespace __cfcc {
 			_cfcc_terminal_node(void);
 			_cfcc_terminal_node(const std::string &value);
 			_cfcc_terminal_node(const _cfcc_terminal_node &other);
-			_cfcc_terminal_node &operator=(const _cfcc_terminal_node &other);
 			virtual ~_cfcc_terminal_node(void);
+			_cfcc_terminal_node &operator=(const _cfcc_terminal_node &other);
 			std::string get_value(void);
 			void set_value(const std::string &value);
 			std::string to_string(void);

@@ -1,5 +1,5 @@
 /*
- * cfcc_par.cpp
+ * cfcc_parser.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,32 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CFCC_PAR_HPP_
-#define CFCC_PAR_HPP_
+#ifndef CFCC_PARSER_HPP_
+#define CFCC_PARSER_HPP_
 
 #include <string>
-#include "cfcc_lex.hpp"
+#include "cfcc_lexer.hpp"
+#include "cfcc_syntax_tree.hpp"
 
 namespace __cfcc {
 
-	typedef class _cfcc_par {
+	typedef class _cfcc_parser {
 		protected:
-			cfcc_lex _lex;
+			cfcc_lexer _lex;
 
-			void _declaration(void);
-			void _declaration_list(void);
-			void _special(void);
-			void _symbol(void);
+			void _declaration(_cfcc_node **node);
+			void _declaration_list(_cfcc_node **node);
+			void _special(_cfcc_node **node);
+			void _symbol(_cfcc_syntax_tree &tree);
 
 		public:
-			_cfcc_par(void);
-			_cfcc_par(const std::string &input, bool is_file);
-			_cfcc_par(const _cfcc_par &other);
-			virtual ~_cfcc_par(void);
-			_cfcc_par &operator=(const _cfcc_par &other);
-			void parse(void);
+			_cfcc_parser(void);
+			_cfcc_parser(const std::string &input, bool is_file);
+			_cfcc_parser(const _cfcc_parser &other);
+			virtual ~_cfcc_parser(void);
+			_cfcc_parser &operator=(const _cfcc_parser &other);
+			void parse(_cfcc_syntax_tree &tree);
 			void reset(void);
-	} cfcc_par;
+	} cfcc_parser;
 
 };
 

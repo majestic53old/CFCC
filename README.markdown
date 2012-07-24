@@ -32,7 +32,7 @@ The BNF grammar used by CFCC is listed below (begins at symbol):
 
 <declaration> ::= '<' <identifier> '>' | <special> | <terminal> | <empty>
 
-<declaration_list> ::= <declaration> <declaration_list> | <declaration> <or> <declaration_list> | <declaration>
+<declaration_list> ::= '(' <declaration_list> ')' | <declaration> <declaration_list> | <declaration> <or> <declaration_list> | <declaration>
 
 <directive> ::= COMMENT | COMMENT_OPEN | COMMENT_CLOSE
 
@@ -40,7 +40,7 @@ The BNF grammar used by CFCC is listed below (begins at symbol):
 
 <or> ::= '|'
 
-<special> ::= '(' <special_type> ')'
+<special> ::= '[' <special_type> ']'
 
 <special_type> ::= FLOAT | INTEGER | STRING | STRING_NWS
 
@@ -127,27 +127,32 @@ Examples
 
 ###Verifying a Language Definition
 
-To verify a language definition, instantiate a CFCC parser object and run the ```parse()``` member routine (see below). At the moment, this process only checks for correct syntax, and not semantics.
+To verify a language definition, instantiate a CFCC parser object and run the ```par.parse();``` member routine (see below). At the moment, this process only checks for correct syntax, not semantics. This routine outputs a syntax tree, but it isn't used at this point. You can print the contents of the tree by calling ```tree.to_string();```.
 
 ```cpp
 #include <iostream>
 #include <stdexcept>
-#include "[path-to-headers]/parser.hpp"
+#include "[path-to-headers]/cfcc_parser.hpp"
+#include "[path-to-headers]/cfcc_syntax_tree.hpp"
 
 using namespace __cfcc;
 
 int main(void) {
 
-	parser par;
+	cfcc_parser par;
+	cfcc_syntax_tree tree;
 	std::string path = "[path-to-language-definition]";
 
 	try {
 
 		// instantiate parser object
-		par = parser(path, true);
+		par = cfcc_parser(path, true);
 
 		// attempt to parse file
-		par.parse();
+		par.parse(tree);
+
+		// if you want to print the contents of the tree
+		// std::cout << tree.to_string() << std::endl;
 	} catch(std::runtime_error &exc) {
 
 		// an exception occurred

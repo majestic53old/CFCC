@@ -21,24 +21,45 @@
 #define CFCC_NODE_HPP_
 
 #include <string>
+#include <vector>
 #include "cfcc_common.hpp"
 
 namespace __cfcc {
 
 	typedef class _cfcc_node {
-		protected:
-			size_t _type;
+	protected:
+		bool _finish,
+				_filled;
+		size_t _type;
+		std::vector<_cfcc_node *> _children;
 
-		public:
-			_cfcc_node(void);
-			_cfcc_node(size_t type);
-			_cfcc_node(const _cfcc_node &other);
-			virtual ~_cfcc_node(void);
-			_cfcc_node &operator=(const _cfcc_node &other);
-			size_t get_type(void);
-			void set_type(size_t type);
-			virtual std::string to_string(void);
-			static std::string type_to_string(size_t type);
+		static void _cleanup_helper(_cfcc_node *node);
+
+	public:
+		_cfcc_node(void);
+		_cfcc_node(size_t type);
+		_cfcc_node(size_t type, bool finish);
+		_cfcc_node(size_t type, bool finish, const std::vector<_cfcc_node *> &children);
+		_cfcc_node(const _cfcc_node *other);
+		_cfcc_node(const _cfcc_node &other);
+		virtual ~_cfcc_node(void);
+		_cfcc_node &operator=(const _cfcc_node &other);
+		void add_child(_cfcc_node *child);
+		void cleanup(void);
+		void clear(void);
+		bool empty(void);
+		_cfcc_node *get_child_at(size_t index);
+		std::vector<_cfcc_node *> &get_children(void);
+		size_t get_type(void);
+		bool is_filled(void);
+		bool is_finish(void);
+		static std::string node_to_string(_cfcc_node *root);
+		void set_filled(bool filled);
+		void set_finish(bool finish);
+		void set_type(size_t type);
+		size_t size(void);
+		virtual std::string to_string(void);
+		static std::string type_to_string(size_t type);
 	} cfcc_node;
 
 };

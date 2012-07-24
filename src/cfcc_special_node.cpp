@@ -23,7 +23,7 @@
 using namespace __cfcc;
 
 _cfcc_special_node::_cfcc_special_node(void) :
-		_cfcc_node(NODE_SPECIAL) {
+		_cfcc_node(NODE_SPECIAL), _special_type(NODE_SPECIAL_GENERIC) {
 	return;
 }
 
@@ -33,8 +33,8 @@ _cfcc_special_node::_cfcc_special_node(size_t special_type) :
 }
 
 _cfcc_special_node::_cfcc_special_node(const _cfcc_special_node &other) :
-		_cfcc_node(NODE_SPECIAL), _special_type(other._special_type) {
-	return;
+		_special_type(other._special_type) {
+	_cfcc_node::operator=(other);
 }
 
 _cfcc_special_node::~_cfcc_special_node(void) {
@@ -45,6 +45,7 @@ _cfcc_special_node &_cfcc_special_node::operator=(const _cfcc_special_node &othe
 	if(this == &other)
 		return *this;
 	_special_type = other._special_type;
+	_cfcc_node::operator=(other);
 	return *this;
 }
 
@@ -77,6 +78,6 @@ std::string _cfcc_special_node::special_type_to_string(size_t special_type) {
 
 std::string _cfcc_special_node::to_string(void) {
 	std::stringstream ss;
-	ss << "[" << cfcc_node::type_to_string(NODE_SPECIAL) << "] " << special_type_to_string(_special_type);
+	ss << "[" << _cfcc_node::to_string() << " (" << special_type_to_string(_special_type) << ")]";
 	return ss.str();
 }

@@ -20,7 +20,6 @@
 #ifndef CFCC_SPECIAL_NODE_HPP_
 #define CFCC_SPECIAL_NODE_HPP_
 
-#include <string>
 #include "cfcc_node.hpp"
 
 namespace __cfcc {

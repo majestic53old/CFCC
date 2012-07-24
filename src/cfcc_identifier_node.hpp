@@ -20,7 +20,6 @@
 #ifndef CFCC_IDENTIFIER_NODE_HPP_
 #define CFCC_IDENTIFIER_NODE_HPP_
 
-#include <string>
 #include "cfcc_node.hpp"
 
 namespace __cfcc {
@@ -34,8 +33,8 @@ namespace __cfcc {
 			_cfcc_identifier_node(void);
 			_cfcc_identifier_node(const std::string &name);
 			_cfcc_identifier_node(const _cfcc_identifier_node &other);
-			_cfcc_identifier_node &operator=(const _cfcc_identifier_node &other);
 			virtual ~_cfcc_identifier_node(void);
+			_cfcc_identifier_node &operator=(const _cfcc_identifier_node &other);
 			std::string get_name(void);
 			void set_name(const std::string &name);
 			std::string to_string(void);

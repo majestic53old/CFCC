@@ -33,7 +33,11 @@ _cfcc_terminal_node::_cfcc_terminal_node(const std::string &value) :
 }
 
 _cfcc_terminal_node::_cfcc_terminal_node(const _cfcc_terminal_node &other) :
-		_cfcc_node(NODE_TERMINAL), _value(other._value) {
+		_value(other._value) {
+	_cfcc_node::operator=(other);
+}
+
+_cfcc_terminal_node::~_cfcc_terminal_node(void) {
 	return;
 }
 
@@ -41,11 +45,8 @@ _cfcc_terminal_node &_cfcc_terminal_node::operator=(const _cfcc_terminal_node &o
 	if(this == &other)
 		return *this;
 	_value = other._value;
+	_cfcc_node::operator=(other);
 	return *this;
-}
-
-_cfcc_terminal_node::~_cfcc_terminal_node(void) {
-	return;
 }
 
 std::string _cfcc_terminal_node::get_value(void) {
@@ -58,7 +59,7 @@ void _cfcc_terminal_node::set_value(const std::string &value) {
 
 std::string _cfcc_terminal_node::to_string(void) {
 	std::stringstream ss;
-	ss << "[" << cfcc_node::type_to_string(NODE_IDENTIFIER) << "]";
+	ss << "[" << _cfcc_node::to_string() << "]";
 	if(!_value.empty())
 		ss << " " << _value;
 	return ss.str();

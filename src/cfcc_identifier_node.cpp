@@ -33,7 +33,11 @@ _cfcc_identifier_node::_cfcc_identifier_node(const std::string &name) :
 }
 
 _cfcc_identifier_node::_cfcc_identifier_node(const _cfcc_identifier_node &other) :
-		_cfcc_node(NODE_IDENTIFIER), _name(other._name) {
+		_name(other._name) {
+	_cfcc_node::operator=(other);
+}
+
+_cfcc_identifier_node::~_cfcc_identifier_node(void) {
 	return;
 }
 
@@ -41,11 +45,8 @@ _cfcc_identifier_node &_cfcc_identifier_node::operator=(const _cfcc_identifier_n
 	if(this == &other)
 		return *this;
 	_name = other._name;
+	_cfcc_node::operator=(other);
 	return *this;
-}
-
-_cfcc_identifier_node::~_cfcc_identifier_node(void) {
-	return;
 }
 
 std::string _cfcc_identifier_node::get_name(void) {
@@ -58,7 +59,7 @@ void _cfcc_identifier_node::set_name(const std::string &name) {
 
 std::string _cfcc_identifier_node::to_string(void) {
 	std::stringstream ss;
-	ss << "[" << cfcc_node::type_to_string(NODE_IDENTIFIER) << "]";
+	ss << "[" << _cfcc_node::to_string() << "]";
 	if(!_name.empty())
 		ss << " " << _name;
 	return ss.str();

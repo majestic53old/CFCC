@@ -1,5 +1,5 @@
 /*
- * cfcc_buff.hpp
+ * cfcc_buffer.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CFCC_BUFF_HPP_
-#define CFCC_BUFF_HPP_
+#ifndef CFCC_BUFFER_HPP_
+#define CFCC_BUFFER_HPP_
 
 #include <string>
 
 namespace __cfcc {
 
-	typedef class _cfcc_buff {
+	typedef class _cfcc_buffer {
 		protected:
 			static const char _NL = '\n';
 			static const char _EOS = '\0';
@@ -35,11 +35,11 @@ namespace __cfcc {
 			std::string _buff;
 
 		public:
-			_cfcc_buff(void);
-			_cfcc_buff(const std::string &input, bool is_file);
-			_cfcc_buff(const _cfcc_buff &other);
-			virtual ~_cfcc_buff(void);
-			_cfcc_buff &operator=(const _cfcc_buff &other);
+			_cfcc_buffer(void);
+			_cfcc_buffer(const std::string &input, bool is_file);
+			_cfcc_buffer(const _cfcc_buffer &other);
+			virtual ~_cfcc_buffer(void);
+			_cfcc_buffer &operator=(const _cfcc_buffer &other);
 			void clear(void);
 			std::string get_buff(void);
 			char get_curr(void);
@@ -55,8 +55,8 @@ namespace __cfcc {
 			size_t size(void);
 			void toggle_line_count(void);
 
-		friend class _cfcc_lex;
-	} cfcc_buff;
+		friend class _cfcc_lexer;
+	} cfcc_buffer;
 
 };
 

@@ -1,5 +1,5 @@
 /*
- * cfcc_lex.hpp
+ * cfcc_lexer.hpp
  * Copyright (C) 2012 David Jolly
  * ----------------------
  *
@@ -17,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CFCC_LEX_HPP_
-#define CFCC_LEX_HPP_
+#ifndef CFCC_LEXER_HPP_
+#define CFCC_LEXER_HPP_
 
 #include <set>
 #include <string>
-#include "cfcc_buff.hpp"
+#include "cfcc_buffer.hpp"
 
 namespace __cfcc {
 
-	typedef class _cfcc_lex {
+	typedef class _cfcc_lexer {
 		protected:
 			static const char _COMM = '#';
 			static const char _TERM = '\'';
@@ -41,11 +41,11 @@ namespace __cfcc {
 			static const size_t _SPECIAL_COUNT = 4;
 			static const std::string _SPECIAL[_SPECIAL_COUNT];
 			static const std::set<std::string> _SPECIAL_SET;
-			static const size_t _SYMBOL_COUNT = 4;
+			static const size_t _SYMBOL_COUNT = 6;
 			static const std::string _SYMBOL[_SYMBOL_COUNT];
 			static const std::set<std::string> _SYMBOL_SET;
 
-			cfcc_buff _buff;
+			cfcc_buffer _buff;
 			size_t _type;
 			std::string _text;
 
@@ -63,13 +63,13 @@ namespace __cfcc {
 
 		public:
 			enum LEX_DIREC_TYPE {
-				TYPE_COMMENT,
+				TYPE_COMMENT = 0,
 				TYPE_COMMENT_CLOSE,
 				TYPE_COMMENT_OPEN,
 			};
 
 			enum LEX_TYPE {
-				TYPE_ASSIGNMENT,
+				TYPE_ASSIGNMENT = 0,
 				TYPE_BEGIN,
 				TYPE_DIRECTIVE,
 				TYPE_END,
@@ -82,24 +82,26 @@ namespace __cfcc {
 			};
 
 			enum LEX_SPEC_TYPE {
-				TYPE_FLOAT,
+				TYPE_FLOAT = 0,
 				TYPE_INTEGER,
 				TYPE_STRING,
 				TYPE_STRING_NWS,
 			};
 
 			enum LEX_SYM_TYPE {
-				TYPE_CLOSE_IDENTIFIER,
+				TYPE_CLOSE_IDENTIFIER = 0,
 				TYPE_CLOSE_SPECIAL,
+				TYPE_CLOSE_NESTING,
 				TYPE_OPEN_IDENTIFIER,
 				TYPE_OPEN_SPECIAL,
+				TYPE_OPEN_NESTING,
 			};
 
-			_cfcc_lex(void);
-			_cfcc_lex(const std::string &input, bool is_file);
-			_cfcc_lex(const _cfcc_lex &other);
-			virtual ~_cfcc_lex(void);
-			_cfcc_lex &operator=(const _cfcc_lex &other);
+			_cfcc_lexer(void);
+			_cfcc_lexer(const std::string &input, bool is_file);
+			_cfcc_lexer(const _cfcc_lexer &other);
+			virtual ~_cfcc_lexer(void);
+			_cfcc_lexer &operator=(const _cfcc_lexer &other);
 			size_t get_line(void);
 			std::string &get_text(void);
 			size_t get_type(void);
@@ -109,8 +111,8 @@ namespace __cfcc {
 			std::string to_string(void);
 			static std::string type_to_string(size_t type);
 
-		friend class _cfcc_par;
-	} cfcc_lex;
+		friend class _cfcc_parser;
+	} cfcc_lexer;
 
 };
 

@@ -22,13 +22,19 @@
 
 namespace __cfcc {
 
+	std::string format_exc(const std::string &exc_mess) {
+		return format_exc("", exc_mess, 0);
+	}
+
 	std::string format_exc(const std::string &exc_mess, size_t line) {
 		return format_exc("", exc_mess, line);
 	}
 
 	std::string format_exc(const std::string &mess, const std::string &exc_mess, size_t line) {
 		std::stringstream ss;
-		ss << "ln. " << line << ": " << exc_mess;
+		if(line)
+			ss << "ln. " << line << ": ";
+		ss << exc_mess;
 		if(!mess.empty())
 			ss << ": " << mess;
 		return ss.str();
@@ -54,6 +60,8 @@ namespace __cfcc {
 				break;
 			case ERROR_EXPECTING_CLOSE_PARENTHESES: output = "Expecting close parentheses";
 				break;
+			case ERROR_EXPECTING_CLOSE_NESTING: output = "Expecting close nesting bracket";
+				break;
 			case ERROR_EXPECTING_DECLARATION: output = "Expecting declaration";
 				break;
 			case ERROR_EXPECTING_IDENTIFIER: output = "Expecting identifer";
@@ -66,7 +74,15 @@ namespace __cfcc {
 				break;
 			case ERROR_EXPECTING_TERMINAL: output = "Expecting terminal";
 				break;
+			case ERROR_UNKNOWN_DECLARATION: output = "Unknown directive";
+				break;
 			case ERROR_UNKNOWN_SYMBOL: output = "Unknown symbol";
+				break;
+			case ERROR_COMMENT_REDECLARATION: output = "Comment redeclaration";
+				break;
+			case ERROR_INTERNAL_NULL_NODE: output = "Internal error (NULL node)";
+				break;
+			case ERROR_INTERNAL_ALLOC_FAIL: output = "Internal error (alloc fail)";
 				break;
 			default: output = "Unknown exception";
 				break;
